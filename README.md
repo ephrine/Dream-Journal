@@ -1,4 +1,4 @@
-# Dream-Journal
+# Dream Journal
 Write dow your dreams before you forget it
 
 Had a Dream early Morning ?? Quickly write it down every details in your Dream Journal. This will improve your recollection of dreams over the period of time.
