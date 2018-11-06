@@ -5,14 +5,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import devesh.ephrine.apps.dreamjournal.pro.Data.Dream;
@@ -52,21 +51,10 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.DreamViewHol
         holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Dream dream = dreamList.get(position);
-                    appDatabase.dreamDao().deleteDream(dream);
-                    dreamList.remove(position);
-                    notify();
-                    notifyItemRemoved(position);
-                } catch (IndexOutOfBoundsException e) {
-                    if (dreamList.size() == 1) {
-                        dreamList.clear();
-                        notifyItemRemoved(position);
-                        Toast.makeText(context, "IndexOutOfBoundException", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                Dream dream = dreamList.get(position);
+                appDatabase.dreamDao().deleteDream(dream);
+                dreamList.remove(position);
+                notifyDataSetChanged();
             }
         });
     }
