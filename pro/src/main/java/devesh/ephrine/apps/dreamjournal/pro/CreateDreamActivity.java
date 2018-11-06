@@ -1,5 +1,6 @@
 package devesh.ephrine.apps.dreamjournal.pro;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,8 +13,12 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import devesh.ephrine.apps.dreamjournal.pro.Data.Dream;
+import devesh.ephrine.apps.dreamjournal.pro.Database.AppDatabase;
+
 public class CreateDreamActivity extends AppCompatActivity {
-int JTotal;
+    int JTotal;
+    private AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,9 @@ DateTxt.setText(Datatx);
         TextView Date=(TextView)findViewById(R.id.TextViewDateTx);
         Date.setText("Today's Date: "+Datatx);
 
-
+        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dream_database")
+                .allowMainThreadQueries()
+                .build();
     }
 
     @Override
@@ -110,49 +117,12 @@ Save();
 if(DreamTx.getText().toString()=="" || DreamTx==null || DreamTx.getText().toString().equals("") || DreamTx.getText().toString().equals(" ")){
 
 }else{
-    JTotal=JTotal+1;
-    Calendar c = Calendar.getInstance();
-
-    int Tdt=c.get(Calendar.DATE);
-    int Tmonth=c.get(Calendar.MONTH);
-    Tmonth=Tmonth+1;
-    int Tyear=c.get(Calendar.YEAR);
     String Datetx=DateTxt.getText().toString();
 
-
-    String DataFile="File"+String.valueOf(JTotal);
-    String FTitle="FTitle"+String.valueOf(JTotal);
-    String FDate="FDate"+String.valueOf(JTotal);
+    Dream dream = new Dream(Datetx, TitleTx.getText().toString(), DreamTx.getText().toString());
+    appDatabase.dreamDao().insertDream(dream);
 
 
-    Context context = getApplicationContext();
-
-    SharedPreferences TotalDreams = context.getSharedPreferences(
-            getString(R.string.Data_total), Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = TotalDreams.edit();
-    editor.putString(getString(R.string.Data_total), String.valueOf(JTotal));
-    editor.apply();
-
-
-    SharedPreferences DreamsTxFile = context.getSharedPreferences(
-            DataFile, Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor1 = DreamsTxFile.edit();
-    editor1.putString(DataFile, DreamTx.getText().toString());
-    editor1.apply();
-
-
-    SharedPreferences TitleTxFile = context.getSharedPreferences(
-            FTitle, Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor2 = TitleTxFile.edit();
-    editor2.putString(FTitle, TitleTx.getText().toString());
-    editor2.apply();
-
-
-    SharedPreferences DateTxFile = context.getSharedPreferences(
-            FDate, Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor3 = DateTxFile.edit();
-    editor3.putString(FDate, Datetx);
-    editor3.apply();
 
 
 }
