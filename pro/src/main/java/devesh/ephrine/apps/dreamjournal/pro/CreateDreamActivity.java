@@ -17,7 +17,7 @@ import devesh.ephrine.apps.dreamjournal.pro.Data.Dream;
 import devesh.ephrine.apps.dreamjournal.pro.Database.AppDatabase;
 
 public class CreateDreamActivity extends AppCompatActivity {
-    int JTotal;
+
     private AppDatabase appDatabase;
 
     @Override
@@ -26,25 +26,6 @@ public class CreateDreamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_dream);
         getSupportActionBar().setTitle("Add Dream");
 
-
-
-
-        Context context = getApplicationContext();
-        SharedPreferences TotalVal = context.getSharedPreferences(
-                getString(R.string.Data_total), Context.MODE_PRIVATE);
-        if(TotalVal!=null){
-            String T=TotalVal.getString(getString(R.string.Data_total),"");
-            if(T.equals("")){
-
-            }else{
-                JTotal=Integer.parseInt(T);
-            }
-
-        }else {
-            JTotal=1;
-
-        }
-
         Calendar c = Calendar.getInstance();
 
         int Tdt=c.get(Calendar.DATE);
@@ -52,10 +33,10 @@ public class CreateDreamActivity extends AppCompatActivity {
         Tmonth=Tmonth+1;
         int Tyear=c.get(Calendar.YEAR);
         String Datatx=String.valueOf(Tdt)+"/"+String.valueOf(Tmonth)+"/"+String.valueOf(Tyear);
-TextInputEditText DateTxt=(TextInputEditText)findViewById(R.id.InputDate);
-DateTxt.setText(Datatx);
+        TextInputEditText DateTxt = findViewById(R.id.InputDate);
+        DateTxt.setText(Datatx);
 
-        TextView Date=(TextView)findViewById(R.id.TextViewDateTx);
+        TextView Date = findViewById(R.id.TextViewDateTx);
         Date.setText("Today's Date: "+Datatx);
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dream_database")
@@ -66,11 +47,12 @@ DateTxt.setText(Datatx);
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-Save();
+            Save();
             CreateDreamActivity.this.finish();
 
             return true;
         }
+
       //  return true;
         return super.onKeyDown(keyCode, event);
     }
@@ -110,22 +92,18 @@ Save();
 
     public void Save(){
 
-        TextInputEditText TitleTx=(TextInputEditText)findViewById(R.id.TxTitle);
-        TextInputEditText DreamTx=(TextInputEditText)findViewById(R.id.DreamTxt);
-        TextInputEditText DateTxt=(TextInputEditText)findViewById(R.id.InputDate);
+        TextInputEditText TitleTx = findViewById(R.id.TxTitle);
+        TextInputEditText DreamTx = findViewById(R.id.DreamTxt);
+        TextInputEditText DateTxt = findViewById(R.id.InputDate);
 
-if(DreamTx.getText().toString()=="" || DreamTx==null || DreamTx.getText().toString().equals("") || DreamTx.getText().toString().equals(" ")){
+        if(DreamTx.getText().toString()=="" || DreamTx==null || DreamTx.getText().toString().equals("") || DreamTx.getText().toString().equals(" ")){
 
-}else{
-    String Datetx=DateTxt.getText().toString();
+        } else{
+            String Datetx=DateTxt.getText().toString();
 
-    Dream dream = new Dream(Datetx, TitleTx.getText().toString(), DreamTx.getText().toString());
-    appDatabase.dreamDao().insertDream(dream);
-
-
-
-
-}
+            Dream dream = new Dream(Datetx, TitleTx.getText().toString(), DreamTx.getText().toString());
+            appDatabase.dreamDao().insertDream(dream);
+        }
 
     }
 }
