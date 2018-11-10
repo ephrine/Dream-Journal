@@ -33,11 +33,13 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_pro);
 
-        Button UpdateButton=(Button)findViewById(R.id.buttonUpdate);
+        Button UpdateButton = findViewById(R.id.buttonUpdate);
         UpdateButton.setVisibility(View.GONE);
+
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference CheckUpdate = database.getReference("/DreamJournal/VersionCode");
+
         // Read from the database
         CheckUpdate.addValueEventListener(new ValueEventListener() {
             @Override
@@ -46,14 +48,16 @@ public class AboutActivity extends AppCompatActivity {
                 // whenever data at this location is updated.
                 String value = dataSnapshot.getValue(String.class);
                 Log.d(TAG, "Version Code Available: " + value);
+
                 if(value!=null){
                     int myVersionCode=BuildConfig.VERSION_CODE;
                     int UpadetCode=Integer.parseInt(value);
+
                     if(myVersionCode==UpadetCode){
-                        Button UpdateButton=(Button)findViewById(R.id.buttonUpdate);
+                        Button UpdateButton = findViewById(R.id.buttonUpdate);
                         UpdateButton.setVisibility(View.GONE);
                     }else {
-                        Button UpdateButton=(Button)findViewById(R.id.buttonUpdate);
+                        Button UpdateButton = findViewById(R.id.buttonUpdate);
                         UpdateButton.setVisibility(View.VISIBLE);
                     }
                 }

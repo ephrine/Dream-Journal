@@ -33,7 +33,7 @@ public class CreateDreamActivity extends AppCompatActivity {
         Tmonth=Tmonth+1;
         int Tyear=c.get(Calendar.YEAR);
         String Datatx=String.valueOf(Tdt)+"/"+String.valueOf(Tmonth)+"/"+String.valueOf(Tyear);
-        TextInputEditText DateTxt=(TextInputEditText)findViewById(R.id.InputDate);
+        TextInputEditText DateTxt = findViewById(R.id.InputDate);
         DateTxt.setText(Datatx);
 
         TextView Date = findViewById(R.id.TextViewDateTx);
